@@ -1,0 +1,67 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+        exclude:
+  endpoint:
+    metrics:
+      show-details=always: true
+
+elasticsearch:
+  cluster:
+    name: elasticsearch
+  server:
+    host: localhost
+    port: 9300
+
+main-task-scheduler:
+  pool-size: 20
+
+input:
+  task-executor:
+    core-pool-size: 20
+    max-pool-size: 40
+    queue-capacity: 1000
+  text:
+    directory: c://input/
+    minimum-age-in-seconds: 1
+    extension-pattern: '*'
+
+processing:
+  task-executor:
+    core-pool-size: 20
+    max-pool-size: 40
+    queue-capacity: 1000
+
+waiting:
+  text:
+    directory: c://waiting/
+
+inprogress:
+  text:
+    directory: c://inprogress/
+
+completed:
+  text:
+    directory: c://completed/
+
+failed:
+  text:
+    directory: c://failed/
+
+text:
+  file:
+    unsuppoerted:
+      directory: c://unsuppoerted/
+
+
+
+
+
+
+
