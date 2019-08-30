@@ -1,4 +1,4 @@
-package com.content.configuration;
+package com.content.web.configuration;
 
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.integration.launch.JobLaunchingGateway;

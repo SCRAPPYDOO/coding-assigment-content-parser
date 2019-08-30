@@ -28,3 +28,5 @@ data/
 *.iml
 content-web/out/
 content-text/out/
+content-text/build/
+content-web/build/
