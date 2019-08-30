@@ -1,6 +1,6 @@
-package com.content.web.configuration;
+package com.content.configuration;
 
-import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.integration.launch.JobLaunchingGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +50,7 @@ public class BasicIntegrationConfiguration {
     }
 
     @Bean
-    public JobLaunchingGateway jobLaunchingGateway(final JobLauncher jobLauncher) {
-        return new JobLaunchingGateway(jobLauncher);
+    public JobLaunchingGateway jobLaunchingGateway(final SimpleJobLauncher asyncJobLauncher) {
+        return new JobLaunchingGateway(asyncJobLauncher);
     }
 }

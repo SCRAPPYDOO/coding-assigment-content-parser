@@ -1,6 +1,14 @@
 spring:
   main:
     allow-bean-definition-overriding: true
+  batch:
+    job:
+      enabled: false
+  datasource:
+    url: jdbc:hsqldb:file:data/batch;hsqldb.tx=mvcc
+    username: sa
+    password:
+    driverClassName: org.hsqldb.jdbcDriver
 
 management:
   endpoints:
@@ -24,9 +32,9 @@ main-task-scheduler:
 
 input:
   task-executor:
-    core-pool-size: 20
-    max-pool-size: 40
-    queue-capacity: 1000
+    core-pool-size: 100
+    max-pool-size: 150
+    queue-capacity: 10000
   text:
     directory: c://input/
     minimum-age-in-seconds: 1
@@ -34,9 +42,9 @@ input:
 
 processing:
   task-executor:
-    core-pool-size: 20
-    max-pool-size: 40
-    queue-capacity: 1000
+    core-pool-size: 100
+    max-pool-size: 150
+    queue-capacity: 10000
 
 waiting:
   text:
@@ -57,7 +65,7 @@ failed:
 text:
   file:
     unsuppoerted:
-      directory: c://unsuppoerted/
+      directory: c://unsupported/
 
 
 

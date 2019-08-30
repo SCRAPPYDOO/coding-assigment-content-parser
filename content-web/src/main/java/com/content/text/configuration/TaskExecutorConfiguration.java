@@ -14,7 +14,7 @@ public class TaskExecutorConfiguration {
 
 
     @Bean(IntegrationContextUtils.TASK_SCHEDULER_BEAN_NAME)
-    public TaskScheduler taskScheduler(@Value("${main-task-scheduler.pool-size}") final int mainPoolSize) {
+    public TaskScheduler inputFileTaskScheduler(@Value("${main-task-scheduler.pool-size}") final int mainPoolSize) {
         final ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
 
         threadPoolTaskScheduler.setPoolSize(mainPoolSize);

@@ -1,4 +1,3 @@
 rootProject.name = 'coding-assignment-content-parser'
 
 include 'content-web'
-include 'content-text'

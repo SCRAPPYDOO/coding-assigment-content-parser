@@ -12,6 +12,8 @@ import org.springframework.integration.core.MessageSource;
 import org.springframework.integration.file.DefaultFileNameGenerator;
 import org.springframework.integration.file.FileReadingMessageSource;
 import org.springframework.integration.file.FileWritingMessageHandler;
+import org.springframework.integration.file.filters.AcceptOnceFileListFilter;
+import org.springframework.integration.file.filters.CompositeFileListFilter;
 import org.springframework.integration.file.filters.SimplePatternFileListFilter;
 import org.springframework.integration.file.support.FileExistsMode;
 import org.springframework.messaging.MessageHandler;
@@ -40,11 +42,16 @@ public class TextFileRouterConfiguration {
     }
 
     @Bean
-    @InboundChannelAdapter(value = ChannelConfiguration.WAITING_TEXT_FILE_CHANNEL_NAME, poller = @Poller(fixedRate = "100", taskExecutor= "processingTextFileTaskExecutor"))
+    @InboundChannelAdapter(value = ChannelConfiguration.WAITING_TEXT_FILE_CHANNEL_NAME, poller = @Poller(fixedRate = "100", taskExecutor= "processingTextFileTaskExecutor", maxMessagesPerPoll="-1"))
     public MessageSource<File> waitingTextFileMessageSource() {
         FileReadingMessageSource sourceReader = new FileReadingMessageSource();
         sourceReader.setDirectory(new File(waitingTextFileDirectory));
-        sourceReader.setFilter(new SimplePatternFileListFilter(WAITING_TEXT_FILE_PATTERN));
+
+        final CompositeFileListFilter compositeFileListFilter = new CompositeFileListFilter();
+        compositeFileListFilter.addFilter(new SimplePatternFileListFilter(WAITING_TEXT_FILE_PATTERN));
+        compositeFileListFilter.addFilter(new AcceptOnceFileListFilter(10000));
+        sourceReader.setFilter(compositeFileListFilter);
+
         sourceReader.setAutoCreateDirectory(true);
         sourceReader.setCountsEnabled(true);
         return sourceReader;

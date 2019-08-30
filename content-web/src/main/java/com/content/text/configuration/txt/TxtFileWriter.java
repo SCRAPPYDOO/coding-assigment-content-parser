@@ -27,7 +27,7 @@ public class TxtFileWriter implements ItemWriter {
         elasticSearchDocument.setFilePath(filePath);
         elasticSearchDocument.setContent(items);
 
-        log.info("writing file content into elastic search for document {}", filePath);
+        //log.info("writing file content into elastic search for document {}", filePath);
 
         elasticSearchService.save(elasticSearchDocument);
     }

@@ -11,6 +11,8 @@ import org.springframework.integration.core.MessageSource;
 import org.springframework.integration.file.DefaultFileNameGenerator;
 import org.springframework.integration.file.FileReadingMessageSource;
 import org.springframework.integration.file.FileWritingMessageHandler;
+import org.springframework.integration.file.filters.AcceptOnceFileListFilter;
+import org.springframework.integration.file.filters.CompositeFileListFilter;
 import org.springframework.integration.file.filters.SimplePatternFileListFilter;
 import org.springframework.integration.file.support.FileExistsMode;
 import org.springframework.messaging.MessageHandler;
@@ -45,13 +47,16 @@ public class InputTextFileConfiguration {
     }
 
     @Bean
-    @InboundChannelAdapter(value = ChannelConfiguration.INPUT_TEXT_FILE_CHANNEL_NAME, poller = @Poller(fixedRate = "100", taskExecutor= "inputTextFileTaskExecutor"))
+    @InboundChannelAdapter(value = ChannelConfiguration.INPUT_TEXT_FILE_CHANNEL_NAME, poller = @Poller(fixedRate = "100", taskExecutor= "inputTextFileTaskExecutor", maxMessagesPerPoll="-1"))
     public MessageSource<File> inputTextFileMessageSource() {
         FileReadingMessageSource sourceReader= new FileReadingMessageSource();
         sourceReader.setDirectory(new File(inputTextFileDirectory));
 
-        sourceReader.setFilter(new SimplePatternFileListFilter(inputTextFileExtensionPattern));
+        final CompositeFileListFilter compositeFileListFilter = new CompositeFileListFilter();
+        compositeFileListFilter.addFilter(new SimplePatternFileListFilter(inputTextFileExtensionPattern));
+        compositeFileListFilter.addFilter(new AcceptOnceFileListFilter(10000));
 
+        sourceReader.setFilter(compositeFileListFilter);
         sourceReader.setAutoCreateDirectory(true);
         return sourceReader;
     }
@@ -70,7 +75,7 @@ public class InputTextFileConfiguration {
 
     @ServiceActivator(inputChannel = ChannelConfiguration.COMPLETED_TEXT_FILE_CHANNEL_NAME)
     public void finish() {
-        log.info("finished");
+
     }
 
 }

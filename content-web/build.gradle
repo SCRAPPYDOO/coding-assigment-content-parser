@@ -1,5 +1,3 @@
 dependencies {
-    compile project(':content-text')
-
     compile "org.hsqldb:hsqldb"
 }
