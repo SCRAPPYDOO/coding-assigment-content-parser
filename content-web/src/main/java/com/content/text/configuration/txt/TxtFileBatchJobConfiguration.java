@@ -54,7 +54,7 @@ public class TxtFileBatchJobConfiguration {
     public Step txtFileParseJob(final TxtFileWriter txtFileWriter, final TxtFileProcessor txtFileProcessor) {
         return this.stepBuilderFactory
                 .<String, String>get(TXT_FILE_JOB_PROCESSING_FILE)
-                .chunk(1000)
+                .chunk(50000)
                 .reader(txtFileReader(null))
                 .processor(txtFileProcessor)
                 .writer(txtFileWriter)

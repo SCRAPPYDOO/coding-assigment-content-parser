@@ -28,7 +28,7 @@ elasticsearch:
     port: 9300
 
 main-task-scheduler:
-  pool-size: 20
+  pool-size: 200
 
 input:
   task-executor:
